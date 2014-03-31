@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>WURFLjs getting started</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+        <script src="http://wurfljs.com/wurfl.js"></script>
+        <style type="text/css">
+		html[data-is_mobile='false'] #data:after{
+		    content: "Not a mobile";
+		    background-color: red;
+		}
+
+		html[data-is_mobile='true'] #data:after{
+		    content: "Mobile";
+		    background-color: green;
+		}
+
+		.desktop #class:after{
+			background-color: green;
+		    content: "I am a desktop";
+		}
+		.mobile #class:after{
+			background-color: green;
+		    content: "I am a Mobile";
+		}		
+        </style>
+    </head>
+    <body>
+    <h1>A demo of the WURFL object</h1>
+    <p>Current values in WURFL object is:</p>
+    <ul id="list">
+    </ul>
+    </body>
+<script type="text/javascript">
+	var doc = document;
+	var docEl = document.documentElement;
+/*Just listing the contents of the WURFL object*/
+	doc.getElementById("list").appendChild(doc.createElement('li')).appendChild(doc.createTextNode("complete_device_name: "+WURFL.complete_device_name));
+	doc.getElementById("list").appendChild(doc.createElement('li')).appendChild(doc.createTextNode("form_factor: "+WURFL.form_factor));
+	doc.getElementById("list").appendChild(doc.createElement('li')).appendChild(doc.createTextNode("is_mobile: "+WURFL.is_mobile));
+
+/*If you're into console.log:*/
+	console.log(WURFL);
+
+/*Putting some classes on the html element, Modernizr-style:*/
+	docEl.className += ' ' + (WURFL.is_mobile ? '' : 'no-') + "mobile"; /*adds class="mobile" or class="no-mobile" to html element*/
+	docEl.className += ' ' + WURFL.form_factor.toLowerCase(); /*Adding the formfactor as class name to html element*/
+	docEl.className += ' ' + WURFL.complete_device_name.toLowerCase().replace(/\s+/g, ''); /*Removing spaces, and puts the complete device name as the class name on html element*/
+
+/*Not using CSS classes but data- attributes (in this case on the document, but can of course be placed on any element in the DOM):*/
+	docEl.setAttribute('data-complete_device_name',  WURFL.complete_device_name); /*Complete device name in a data-complete_device_name attribute*/
+	docEl.setAttribute('data-form_factor', WURFL.form_factor );/*Form Factor in data-form_factor attribute*/
+	docEl.setAttribute('data-is_mobile', WURFL.is_mobile );/*Mobile or not in data-is_mobile attribute*/
+</script>
+<p id="data"></p>
+<p id="class"></p>
+</html>
